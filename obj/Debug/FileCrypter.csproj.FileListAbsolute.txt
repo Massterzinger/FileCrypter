@@ -1,2 +1,9 @@
 D:\MyMade\vs\FileCrypter\FileCrypter\bin\Debug\FileCrypter.exe.config
 D:\MyMade\vs\FileCrypter\bin\Debug\FileCrypter.exe.config
+D:\MyMade\vs\FileCrypter\bin\Debug\FileCrypter.exe
+D:\MyMade\vs\FileCrypter\bin\Debug\FileCrypter.pdb
+D:\MyMade\vs\FileCrypter\obj\Debug\FileCrypter.Form1.resources
+D:\MyMade\vs\FileCrypter\obj\Debug\FileCrypter.Properties.Resources.resources
+D:\MyMade\vs\FileCrypter\obj\Debug\FileCrypter.csproj.GenerateResource.Cache
+D:\MyMade\vs\FileCrypter\obj\Debug\FileCrypter.exe
+D:\MyMade\vs\FileCrypter\obj\Debug\FileCrypter.pdb
