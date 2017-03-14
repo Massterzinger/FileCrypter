@@ -1,0 +1,2 @@
+D:\MyMade\vs\FileCrypter\FileCrypter\bin\Debug\FileCrypter.exe.config
+D:\MyMade\vs\FileCrypter\bin\Debug\FileCrypter.exe.config
