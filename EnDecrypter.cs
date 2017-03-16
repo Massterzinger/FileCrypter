@@ -8,8 +8,8 @@ namespace FileCrypter
 {
     interface EnDecrypter
     {
-        void PerformMutaion(ref byte[] fileData, byte[] key);
+        void PerformMutation(ref byte[] fileData, byte[] key);
         byte[] GenerateByteKey(int length);
-        char[] GenerateCharKey(int length);
+        IEnumerator<byte> MutKeyString(byte[] Key, int length);
     }
 }

@@ -31,11 +31,11 @@ namespace FileCrypter
             }
             else
             {
-                Key = ed.GenerateByteKey(15);
+                generateRandomKeyToolStripMenuItem_Click(sender, e);
             }
-            if (Key != null)
+            if (Key != null && FileToMutate != null)
             {
-                ed.PerformMutaion(ref FileToMutate, Key);
+                ed.PerformMutation(ref FileToMutate, Key);
             }
         }
 
@@ -44,6 +44,7 @@ namespace FileCrypter
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 FileToMutate = File.ReadAllBytes(openFileDialog1.FileName);
+                label2.Text = string.Format("Loaded {0}", openFileDialog1.FileName);
             }
         }
 
@@ -52,6 +53,7 @@ namespace FileCrypter
             if (FileToMutate != null)
             {
                 File.WriteAllBytes(openFileDialog1.FileName, FileToMutate);
+                label2.Text = string.Format("Saved {0}",openFileDialog1.FileName);
             }
         }
 
@@ -60,7 +62,14 @@ namespace FileCrypter
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 File.WriteAllBytes(saveFileDialog1.FileName, FileToMutate);
+                label2.Text = string.Format("Saved {0}", saveFileDialog1.FileName);
             }
+        }
+
+        private void generateRandomKeyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Key = ed.GenerateByteKey(10);
+            textBox1.Text = new string(Array.ConvertAll<byte, char>(Key, Convert.ToChar));
         }
     }
 }
