@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.IO;
 using System.Windows.Forms;
 
@@ -15,16 +16,18 @@ namespace FileCrypter
     {
         byte[] FileToMutate;
         byte[] Key;
-        EnDecrypter ed;
+        CryptionClass ed;
         public Form1()
         {
             InitializeComponent();
             ed = new CryptionClass();
+            ed.ProgressChanged += OnProgressChanged;
+            ed.ProgressEnded += OnProgressEnded;
+            ed.ProgressStarted += OnProgressStarted;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             if (textBox1.Text.Length > 0)
             {
                 Key = Encoding.Default.GetBytes(textBox1.Text);
@@ -70,6 +73,23 @@ namespace FileCrypter
         {
             Key = ed.GenerateByteKey(10);
             textBox1.Text = new string(Array.ConvertAll<byte, char>(Key, Convert.ToChar));
+        }
+
+        public void OnProgressChanged(object sender, EventArgs e)
+        {
+            if (progressBar1.Value+1 <= progressBar1.Maximum)
+            {
+                progressBar1.Value++;
+            }
+        }
+        public void OnProgressEnded(object sender, EventArgs e)
+        {
+            label2.Text = "Changed";
+        }
+        public void OnProgressStarted(object sender, EventArgs e)
+        {
+            label2.Text = "Started";
+            progressBar1.Value = 0;
         }
     }
 }

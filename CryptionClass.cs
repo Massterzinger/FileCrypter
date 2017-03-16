@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FileCrypter
 {
-    class CryptionClass : EnDecrypter
+    class CryptionClass : IEnDecrypter
     {
+        public delegate void ProgressChangedEventHandler(object sender, EventArgs e);
+        public delegate void ProgressStartedEventHandler(object sender, EventArgs e);
+        public delegate void ProgressEndedEventHandler(object sender, EventArgs e);
+
+        public event ProgressChangedEventHandler ProgressChanged;
+        public event ProgressStartedEventHandler ProgressStarted;
+        public event ProgressEndedEventHandler ProgressEnded;
+
+
         Random r;
         public CryptionClass()
         {
@@ -27,23 +33,39 @@ namespace FileCrypter
 
         public IEnumerator<byte> MutKeyString(byte[] Key, int length)
         {
-            int j = 0;
             for (int i = 0; i < length; i++)
             {
-                if (j == Key.Length) j = 0;
-                yield return Key[j];
+                yield return (byte)(Key[i % Key.Length] ^ (byte)(240-(i % 128)));
             }
-            
         }
         
         public void PerformMutation(ref byte[] fileData, byte[] key)
         {
+            OnProgressStarted();
             var A = MutKeyString(key, fileData.Length);
-            for (int i = 0; i < fileData.Length; i++)
+            int ChunkSize = fileData.Length / 100;
+            for (int i = 0; i < fileData.Length; i++, A.MoveNext())
             {
                 fileData[i] ^= A.Current;
-                A.MoveNext();
+                if( i % ChunkSize == 0)
+                {
+                    //Call Event
+                    OnProgressChanged();
+                }
             }
+            OnProgressEnded();
+        }
+        protected virtual void OnProgressChanged()
+        {
+            ProgressChanged?.Invoke(this, EventArgs.Empty);
+        }
+        protected virtual void OnProgressStarted()
+        {
+            ProgressStarted?.Invoke(this, EventArgs.Empty);
+        }
+        protected virtual void OnProgressEnded()
+        {
+            ProgressEnded?.Invoke(this, EventArgs.Empty);
         }
     }
 }

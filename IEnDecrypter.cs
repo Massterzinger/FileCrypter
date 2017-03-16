@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileCrypter
 {
-    interface EnDecrypter
+    interface IEnDecrypter
     {
         void PerformMutation(ref byte[] fileData, byte[] key);
         byte[] GenerateByteKey(int length);
